@@ -76,6 +76,8 @@ if(isset($_POST['signupBtn'])) {
         <tr><td></td><td><input style="float: right;" type="submit" name="signupBtn" value="Signup"></td></tr>
     </table>
 </form>
+<br>
+<p>After Sign-up, Please <a href="login.php">Login here</a> to begin. </p>
 <p><a href="index.php">Back</a> </p>
 </body>
 </html>
