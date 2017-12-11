@@ -52,3 +52,17 @@ function show_errors($form_errors_array){
     $errors .= "</ul></p>";
     return $errors;
 }
+
+function flashMessage($message, $passorfail = "Fail"){
+    if($passorfail === "Pass"){
+        $data = "<p style='padding:20px; border: 1px solid gray; color: green;'>{$message}</p>";
+    }else {
+        $data = "<p style='padding:20px; border: 1px solid gray; color: red;'> {$message}</p>";
+    }
+    return $data;
+}
+
+function redirectto($page){
+    header("Location: {$page}.php");
+}
+
