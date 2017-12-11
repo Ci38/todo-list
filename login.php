@@ -2,6 +2,7 @@
 include_once 'session.php';
 include_once 'database.php';
 include_once 'validation.php';
+include_once 'parseLogin.php';
 
 if(isset($_POST['LoginBtn'])){
 
