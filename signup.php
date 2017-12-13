@@ -60,24 +60,95 @@ if(isset($_POST['signupBtn'])) {
     <title>Register Page</title>
 </head>
 <body>
-<h2>Todo List Application</h2><hr>
 
-<h3>Registration Form</h3>
+<style>
+
+    .center {
+        text-align: center;
+    }
+
+    input[type=text], select {
+        width: 40%;
+        padding: 8px 20px;
+        margin: 8px 0;
+        display: table;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=password], select {
+        width: 40%;
+        padding: 8px 20px;
+        margin: 8px 0;
+        display: table;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+
+    input[type=submit] {
+        width: 40%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 10px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+
+    div {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 10px;
+    }
+
+    p.serif {
+        font-family: "Comic Sans MS";
+    }
+
+</style>
+<body>
+
+<h2><center><p class="serif">Todo List Application</p></center></h2>
+
+<h3><center>Sign Up Form</center></h3>
 
 <?php if(isset($result)) echo $result; ?>
 <?php if(!empty($form_errors)) echo show_errors($form_errors); ?>
-<form method="post" action="">
-    <table>
-        <tr><td>Email:</td> <td><input type="text" value="" name="email"></td></tr>
-        <tr><td>Username:</td> <td><input type="text" value="" name="username"></td></tr>
-        <tr><td>First name:</td> <td><input type="text" value="" name="fname"></td></tr>
-        <tr><td>Last name:</td> <td><input type="text" value="" name="lname"></td></tr>
-        <tr><td>Password:</td> <td><input type="password" value="" name="password"></td></tr>
-        <tr><td></td><td><input style="float: right;" type="submit" name="signupBtn" value="Signup"></td></tr>
-    </table>
-</form>
+<div>
+
+    <form method="post" action="">
+
+        <label for="email">Email</label>
+        <input type="text" value="" name="email" placeholder="Your Email..">
+
+        <label for="username">UserName</label>
+        <input type="text" value="" name="username" placeholder="Your UserName..">
+
+        <label for="fname">First Name</label>
+        <input type="text" value="" name="fname" placeholder="Your First Name..">
+
+        <label for="lname">Last Name</label>
+        <input type="text" value="" name="lname" placeholder="Your Last Name..">
+
+        <label for="password">Password</label>
+        <input type="password" value="" name="password" placeholder="Your Password..">
+
+
+        <input type="submit" name="signupBtn" value="Sign Up">
+    </form>
+</div>
+
+
 <br>
-<p>After Sign-up, Please <a href="login.php">Login here</a> to begin. </p>
+<h3><center><p>After Sign-up, Please <a href="login.php">Login here</a> to begin. </p></center></h3>
 <p><a href="index.php">Back</a> </p>
 </body>
 </html>
