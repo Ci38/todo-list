@@ -11,8 +11,9 @@ class Manage {
 }
 spl_autoload_register(array('Manage', 'autoload'));
 
-
+include_once 'csspage.php';
 include_once'session.php';
+include_once 'footer.php';
 
 ?>
 
@@ -23,17 +24,32 @@ include_once'session.php';
     <title>Homepage</title>
 </head>
 <body>
-<h2>Todo List Application </h2><hr>
 
 <?php
 if(!isset($_SESSION['username'])):;
 
 ?>
-<p>You are not signed in <a href="login.php">Login</a> Not registered? <a href="signup.php">Signup</a></p>
-<?php else: ?>
-<p>You are logged in as <?php if(isset($_SESSION['username'])) echo $_SESSION['username'];?><br><br> <a href="list.php">Access your todo list </a><br><br><a href="logout.php">Logout</a></p>
+    <div class="topnav">
+        <a href="login.php">Login</a>
+        <a href="signup.php">Sign Up</a>
 
-<?php endif  ?>
+    </div>
+<h3><center>This is a simple to do list application based on PHP.</center></h3><br><br><br>
+    <h4><p><center>Please <a href="login.php">Login </a>to begin. Not registered? <a href="signup.php">Signup</a></center></p></h4>
+
+
+
+<?php else: ?>
+
+<div class="topnav">
+    <a href="list.php">Access your todo list </a>
+    <a href="logout.php">Logout</a>
+
+</div>
+
+<h2><p><center>Welcome, <?php if(isset($_SESSION['username'])) echo $_SESSION['username'];?>! You are now logged in.</center></p></h2>
+
+<?php endif ?>
 
 </body>
 </html>
