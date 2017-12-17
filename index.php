@@ -1,56 +1,77 @@
 <?php
+include_once 'session.php';
+include_once 'database.php';
+include_once 'db.php';
 
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
-
-//Class to load classes it finds the file when the program starts to fail for calling a missing class
-class Manage {
-    public static function autoload($class) {
-        include $class . '.php';
+$action = filter_input(INPUT_POST, "action");
+if (isset($_SESSION['name'], $_SESSION['user_id'], $_SESSION['isLogged'])) {
+    if ($action == '') {
+        $result = getTodoItems($_SESSION['user_id'], 'pending');
+        include 'list.php';
+    }
+    else if ($action == 'add') {
+        $add_todo_title = filter_input(INPUT_POST, 'add_todo_title');
+        $add_due_date = filter_input(INPUT_POST, 'add_due_date');
+        $add_due_time = filter_input(INPUT_POST, 'add_due_time');
+        addTodoItem($_SESSION['user_id'], $add_todo_title, $add_due_date, $add_due_time);
+        $result = getTodoItems($_SESSION['user_id'], 'pending');
+        include 'list.php';
+    }
+    else if ($action == 'update_todo_item') {
+        $todo_id = filter_input(INPUT_POST, "todo_id");
+        $todo_title = filter_input(INPUT_POST, "edit_todo_title");
+        $due_date = filter_input(INPUT_POST, "edit_due_date");
+        $due_time = filter_input(INPUT_POST, "edit_due_time");
+        $user_id = $_SESSION['user_id'];
+        $res = updateTodo($user_id, $todo_id, $todo_title, $due_date, $due_time);
+        if ($res) {
+            $result = getTodoItems($_SESSION['user_id'], 'pending');
+            include 'list.php';
+        } else {
+            header("Location: index.php");
+        }
+    }
+    else if ($action == 'delete') {
+        $action = '';
+        $selected = filter_input(INPUT_POST, "todo_id");
+        deleteTodoItem($_SESSION['user_id'], $selected);
+        $result = getTodoItems($_SESSION['user_id'], 'pending');
+        include 'list.php';
     }
 }
-spl_autoload_register(array('Manage', 'autoload'));
-
-include_once 'csspage.php';
-include_once'session.php';
-include_once 'footer.php';
-
+else {
+    if ($action == 'checking_user') {
+        $email = filter_input(INPUT_POST, 'email');
+        $password = filter_input(INPUT_POST, 'password');
+        $valid_user = checkUserValid($email, $password);
+        if ($valid_user === true) {
+            $result = getTodoItems($_SESSION['user_id'], 'pending');
+            include 'list.php';
+        } elseif ($valid_user === 'This email exists') {
+            echo '<h2>Invalid username or password</h2>';
+        } elseif ($valid_user === 'Invalid') {
+            echo '<h2>Invalid username or password</h2>';
+        }
+    }
+    else if ($action == 'new_user') {
+        $email = filter_input(INPUT_POST, 'email');
+        $username = filter_input(INPUT_POST, 'username');
+        $fname = filter_input(INPUT_POST, 'fname');
+        $lname = filter_input(INPUT_POST, 'lname');
+        $password = filter_input(INPUT_POST, 'password');
+        $user_exists = createUser($email, $username, $fname, $lname, $password);
+        if ($user_exists == true) {
+            include('user_exists.php');
+        } else {
+            $valid_user = checkUserValid($email, $password);
+            if ($valid_user === true) {
+                $result = getTodoItems($_SESSION['user_id'], 'pending');
+                include 'list.php';
+            }
+        }
+    }
+    elseif ($action == "") {
+        include('login.php');
+    }
+}
 ?>
-
-<!DOCTYPE HTML>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Homepage</title>
-</head>
-<body>
-
-<?php
-if(!isset($_SESSION['username'])):;
-
-?>
-    <div class="topnav">
-        <a href="login.php">Login</a>
-        <a href="signup.php">Sign Up</a>
-
-    </div>
-<h3><center>This is a simple to do list application based on PHP.</center></h3><br><br><br>
-    <h4><p><center>Please <a href="login.php">Login </a>to begin. Not registered? <a href="signup.php">Signup</a></center></p></h4>
-
-
-
-<?php else: ?>
-
-<div class="topnav">
-    <a href="list.php">Access your todo list </a>
-    <a href="logout.php">Logout</a>
-
-</div>
-
-<h2><p><center>Welcome, <?php if(isset($_SESSION['username'])) echo $_SESSION['username'];?>! You are now logged in.</center></p></h2>
-
-<?php endif ?>
-
-</body>
-</html>
-
