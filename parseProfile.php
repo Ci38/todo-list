@@ -1,14 +1,12 @@
 <?php
 include_once 'database.php';
-include_once 'validation.php';
 
- if(isset($_SESSION['user_id'])) {
-        $user_id = $_SESSION['user_id'];
+if (isset($_SESSION['name'], $_SESSION['user_id'], $_SESSION['isLogged'])) {
+    $id = $_SESSION['id'];
 
-
-    $sqlQuery = "SELECT * FROM accounts WHERE user_id = :user_id";
+    $sqlQuery = "SELECT * FROM accounts WHERE id = :id";
     $statement = $db->prepare($sqlQuery);
-    $statement->execute(array(':user_id' => $user_id));
+    $statement->execute(array(':id' => $id));
 
     while($rs = $statement->fetch()){
         $email = $rs['email'];
@@ -18,6 +16,6 @@ include_once 'validation.php';
         $password = $rs['password'];
     }
 
-    $encode_user_id = base64_encode("encodeuserid{$user_id}");
+    $encode_id = base64_encode("encodeuserid{$id}");
 
 }
